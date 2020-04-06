@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0d5dcdf77dfc48c196b1231d65f83d5e" Name="Diagram1">
+        <EntityTypeShape EntityType="treeViewModel.Node" Width="1.5" PointX="2.75" PointY="0.5" />
+        <EntityTypeShape EntityType="treeViewModel.Group" Width="1.5" PointX="0.5" PointY="0.5" />
+        <AssociationConnector Association="treeViewModel.GroupNode" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

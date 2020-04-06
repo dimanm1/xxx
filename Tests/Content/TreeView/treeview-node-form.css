@@ -1,0 +1,53 @@
+﻿/* Контейнер с надписью и значением. */
+.treeview-node-form_item{
+    margin: 0 10px;
+    width: calc(100% - 2 * 10px)
+}
+.treeview-node-form_item:not(:last-child){
+    margin-bottom: 15px;
+}
+/* Контейнер содержимого формы. */
+.k-edit-form-container {
+    width: 100%;
+}
+/* DropDownListFor. */
+span.k-dropdown {
+    width: 100%;
+}
+/* DropDownListFor item.*/
+.k-dropdown .k-input,
+.k-dropdown .k-state-focused .k-input,
+.k-menu .k-popup,
+.k-multiselect .k-button,
+.k-multiselect .k-button:hover {
+    padding: 0;
+    line-height: 20pt;
+}
+/* Описание пункта в DropDownListFor. */
+.alt-parent-desc {
+    font-family: Calibri;
+    font-size: 10pt;
+    font-style: italic;
+    line-height: 12pt;
+}
+
+
+input.k-textbox,
+textarea.k-textbox {
+    margin: 0;
+    height: 22pt;
+    line-height: 22pt;
+    max-width: none;
+    width: 100%;
+}
+input.k-textbox {
+    padding: 0;
+}
+textarea.k-textbox {
+    height: 50px;
+    padding: 4px 9px;
+    line-height: 12pt;
+}
+.k-multiselect-wrap.k-floatwrap .k-textbox{
+    color: red;
+}

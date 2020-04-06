@@ -1,0 +1,71 @@
+﻿<script>
+    function getSelectedRowId() {
+        var row = $(event.srcElement).closest("tr");
+        var grid = $(event.srcElement).closest("[data-role=grid]").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        if (dataItem)
+        {
+            return
+            {
+                rowId: dataItem.Id,
+                rowParentId: dataItem.ParentId
+            };
+        } else {
+            return null;
+        }
+    }
+</script>
+@{ 
+
+}
+
+@(Html.Kendo().Grid<Tests.Models.TreeViewNode>()
+    .Name("grid")
+    .Columns(col =>
+    {
+        col.Bound(x => x.Name).Title("Name");
+        col.Bound(x => x.ParentName).Title("Parent");
+        col.Bound(x => x.Action).Title("Action");
+        col.Bound(x => x.Controller).Title("Controller");
+        col.Bound(x => x.Area).Title("Controller");
+        col.Command(x =>
+        {
+            x.Edit()
+                .Text(" ")
+                .CancelText("Cencel")
+                .UpdateText("Update");
+            x.Destroy()
+                .Text(" ");
+        })
+        .Title("Edit");
+    })
+    .ToolBar(x =>
+    {
+        x.Create().Text("Create");
+        x.Search();
+    })
+    .Editable(x => x
+        .Mode(GridEditMode.PopUp)
+        .TemplateName("TreeViewNodeForm")
+        .Window(w =>
+        {
+            w.Title("TreeView Manager");
+            w.Width(600);
+            w.Resizable();
+        })
+    )
+    .DataSource(ds => ds.Ajax()
+    .Model(m =>
+    {
+        m.Id(x => x.Id);
+        m.Field(x => x.Id).Editable(false);
+        m.Field(x => x.ParentId).Editable(true);
+        m.Field(x => x.HasChildren).Editable(false);
+        m.Field(x => x.Name).Editable(true);
+        m.Field(x => x.ParentName).Editable(true);
+    })
+    .Read(x => x.Action("TreeView_Read", "TreeView"))
+    .Create(x => x.Action("TreeView_Create", "TreeView"))
+    .Update(x => x.Action("TreeView_Create", "TreeView"))
+    .Destroy(x => x.Action("TreeView_Create", "TreeView"))
+    ))

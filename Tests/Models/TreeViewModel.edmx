@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="treeViewModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="Data Source=D:\Tests\Tests\Data\TreeView.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GroupNode">
+          <Key>
+            <PropertyRef Name="IdGroup" />
+            <PropertyRef Name="IdNode" />
+          </Key>
+          <Property Name="IdGroup" Type="integer" Nullable="false" />
+          <Property Name="IdNode" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Node">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentId" Type="integer" />
+          <Property Name="HasChildren" Type="bit" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ParentName" Type="varchar" MaxLength="200" />
+          <Property Name="Tooltip" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="Description" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+          <Property Name="Area" Type="varchar" MaxLength="20" />
+          <Property Name="Controller" Type="varchar" MaxLength="20" />
+          <Property Name="Action" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_GroupNode_0_0">
+          <End Role="Node" Type="Self.Node" Multiplicity="1" />
+          <End Role="GroupNode" Type="Self.GroupNode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Node">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupNode">
+              <PropertyRef Name="IdNode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupNode_1_0">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="GroupNode" Type="Self.GroupNode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupNode">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="treeViewModelStoreContainer">
+          <EntitySet Name="Group" EntityType="Self.Group" store:Type="Tables" />
+          <EntitySet Name="GroupNode" EntityType="Self.GroupNode" store:Type="Tables" />
+          <EntitySet Name="Node" EntityType="Self.Node" store:Type="Tables" />
+          <AssociationSet Name="FK_GroupNode_0_0" Association="Self.FK_GroupNode_0_0">
+            <End Role="Node" EntitySet="Node" />
+            <End Role="GroupNode" EntitySet="GroupNode" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupNode_1_0" Association="Self.FK_GroupNode_1_0">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="GroupNode" EntitySet="GroupNode" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="treeViewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TreeViewEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Node" EntityType="treeViewModel.Node" />
+          <EntitySet Name="Group" EntityType="treeViewModel.Group" />
+          <AssociationSet Name="GroupNode" Association="treeViewModel.GroupNode">
+            <End Role="Node" EntitySet="Node" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Node">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentId" Type="Int64" />
+          <Property Name="HasChildren" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ParentName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Tooltip" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Controller" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Action" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Group" Relationship="treeViewModel.GroupNode" FromRole="Node" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Node" Relationship="treeViewModel.GroupNode" FromRole="Group" ToRole="Node" />
+        </EntityType>
+        <Association Name="GroupNode">
+          <End Type="treeViewModel.Node" Role="Node" Multiplicity="*" />
+          <End Type="treeViewModel.Group" Role="Group" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="treeViewModelStoreContainer" CdmEntityContainer="TreeViewEntities">
+          <EntitySetMapping Name="Node">
+            <EntityTypeMapping TypeName="treeViewModel.Node">
+              <MappingFragment StoreEntitySet="Node">
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Tooltip" ColumnName="Tooltip" />
+                <ScalarProperty Name="ParentName" ColumnName="ParentName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="HasChildren" ColumnName="HasChildren" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Group">
+            <EntityTypeMapping TypeName="treeViewModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="GroupNode" TypeName="treeViewModel.GroupNode" StoreEntitySet="GroupNode">
+            <EndProperty Name="Group">
+              <ScalarProperty Name="Id" ColumnName="IdGroup" />
+            </EndProperty>
+            <EndProperty Name="Node">
+              <ScalarProperty Name="Id" ColumnName="IdNode" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

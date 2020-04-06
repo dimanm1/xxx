@@ -1,0 +1,62 @@
+﻿@model Tests.Models.TreeViewNode
+<link href="~/Content/TreeView/treeview-node-form.css" rel="stylesheet" />
+@{ 
+    string altParentItem = string.Concat(
+        @"<div>#:data.Name#</div>",
+        @"<div class='alt-parent-desc'>Id: #:data.Id#. #:data.Description#</div>"
+    );
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="treeview-node-form_item">
+                <div>Name</div>
+                @(Html.Kendo().TextBoxFor(x => x.Name))
+                @(Html.ValidationMessageFor(x => x.Name))
+            </div>
+            <div class="treeview-node-form_item">
+                <div>Tooltip</div>
+                @(Html.TextAreaFor(x => x.Tooltip, new { Class = "k-textbox" }))
+            </div>
+            <div class="treeview-node-form_item">
+                <div>Description</div>
+                @(Html.TextAreaFor(x => x.Description, new { Class = "k-textbox" }))
+                @(Html.ValidationMessageFor(x => x.Description))
+            </div>
+        </div>
+        <div class="col">
+            <div class="treeview-node-form_item">
+                <div>Parent</div>
+                @(Html.Kendo().DropDownListFor(x => x.ParentId)
+                            //.Name("alterPar") //
+                            .DataTextField("Name")
+                            .DataValueField("Id")
+                            .OptionLabel("Set as root")
+                            .Height(400)
+                            .Value(Model.Name)
+                            .Text(Model.Name)
+                            .Template(altParentItem)
+                            .DataSource(x => x
+                                .Custom()
+                                .Group(g => g.Add("ParentName", typeof(string)))
+                                .Transport(t => t
+                                    .Read(read => read.Action("AlterParents", "TreeView").Data("getSelectedRowId"))
+                                )
+                            )
+                            .Filter(FilterType.Contains)
+                            .HtmlAttributes(new { data_value_primitive = "true" })
+                )
+            </div>
+            <div class="treeview-node-form_item">
+                <div>Groups</div>
+                @(Html.Kendo().MultiSelectFor(x => x.Groups)
+                    .DataTextField("Name")
+                    .DataValueField("Id")
+                    .Value(Model.Groups.AsEnumerable())
+                    
+                    .DataSource(x => x.Read(read => read.Action("Groups", "TreeView").Data("getSelectedRowId"))
+                ))
+            </div>
+        </div>
+    </div>
+</div>
