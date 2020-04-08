@@ -5,15 +5,11 @@
         var dataItem = grid.dataItem(row);
         if (dataItem)
         {
-            return { clientId: dataItem.Id, xxx: "sdsdsds" }
-        } else {
-            return { clientId: null }
+            return { selectedRow_Id: dataItem.Id, selectedRow_ParentId: dataItem.ParentId };
         }
     }
 </script>
-@{ 
-
-}
+@{}
 @(Html.Kendo().Grid<Tests.Models.TreeViewNode>()
     .Name("grid")
     .Columns(col =>
@@ -22,15 +18,15 @@
         col.Bound(x => x.ParentName).Title("Parent");
         col.Bound(x => x.Action).Title("Action");
         col.Bound(x => x.Controller).Title("Controller");
-        col.Bound(x => x.Area).Title("Controller");
+        col.Bound(x => x.Area).Title("Area");
         col.Command(x =>
         {
             x.Edit()
-                .Text(" ")
+                .Text("Edit")
                 .CancelText("Cencel")
                 .UpdateText("Update");
             x.Destroy()
-                .Text(" ");
+                .Text("Destroy");
         })
         .Title("Edit");
     })
@@ -62,5 +58,4 @@
     .Read(x => x.Action("TreeView_Read", "TreeView"))
     .Create(x => x.Action("TreeView_Create", "TreeView"))
     .Update(x => x.Action("TreeView_Cr", "TreeView"))
-    .Destroy(x => x.Action("TreeView_Cree", "TreeView"))
-    ))
+    .Destroy(x => x.Action("TreeView_Cree", "TreeView"))))

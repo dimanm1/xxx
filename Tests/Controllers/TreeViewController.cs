@@ -56,9 +56,9 @@ namespace Tests.Controllers
                     // Если проверять HasChildren, то минимум действий все рано равен 1, а максимум - 2.
                     parent.HasChildren = true;
 
-                    //context.Node.Attach(parent);
-                    //context.Entry(parent).State = EntityState.Modified;
-                    //context.SaveChanges();
+                    context.Node.Attach(parent);
+                    context.Entry(parent).State = EntityState.Modified;
+                    context.SaveChanges();
 
                     row.ParentName = parent.Name;
                 }
@@ -77,6 +77,7 @@ namespace Tests.Controllers
                     Name = row.Name,
                     ParentId = row.ParentId,
                     ParentName = row.ParentName,
+                    Tooltip = row.Tooltip
                 };
 
                 List<Group> newNodeGroups = context.Group
@@ -107,7 +108,7 @@ namespace Tests.Controllers
 
 
 
-        public JsonResult AlterParents(string clientId)
+        public JsonResult AlterParents(string selectedRow_ParentId)
         {
             using (TreeViewEntities context = new TreeViewEntities())
             {
@@ -121,16 +122,19 @@ namespace Tests.Controllers
                         Description = x.Description
                     });
 
-                if (string.IsNullOrEmpty(clientId))
+                if (string.IsNullOrEmpty(selectedRow_ParentId))
                 {
                     return Json(alterParents.ToList(), JsonRequestBehavior.AllowGet);
                 }
 
-                return Json(alterParents.SkipWhile(x => x.Id == clientId).ToList(), JsonRequestBehavior.AllowGet);
+                return Json(alterParents
+                        .SkipWhile(x => x.Id == selectedRow_ParentId)
+                        .ToList(),
+                    JsonRequestBehavior.AllowGet);
             }
         }
 
-        public JsonResult Groups(string clientId)
+        public JsonResult Groups(string selectedRow_Id)
         {
             using (TreeViewEntities context = new TreeViewEntities())
             {
@@ -143,14 +147,14 @@ namespace Tests.Controllers
                     })
                     .ToList();
 
-                if (string.IsNullOrEmpty(clientId))
+                if (string.IsNullOrEmpty(selectedRow_Id))
                 {
                     return Json(groups, JsonRequestBehavior.AllowGet);
                 }
 
                 long? ParentId = context.Node
                     .AsEnumerable()
-                    .First(x => x.Id == int.Parse(clientId))
+                    .First(x => x.Id == int.Parse(selectedRow_Id))
                     .ParentId;
 
                 if (ParentId == null)
