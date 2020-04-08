@@ -3,23 +3,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <script src="~/Scripts/Kendo/jquery.min.js"></script>
-    <script src="~/Scripts/Kendo/jszip.min.js"></script>
-    <script src="~/Scripts/Kendo/kendo.all.min.js"></script>
-    <script src="~/Scripts/Kendo/kendo.aspnetmvc.min.js"></script>
-
-
-    <link href="~/Content/Kendo/kendo.silver.min.css" rel="stylesheet" />
-    <link href="~/Content/Kendo/kendo.silver.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-grid.css" rel="stylesheet" />
-    <link href="~/Content/Font Aweasome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/Kendo/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/Kendo/kendo.silver.min.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
 
-
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/Kendo/jszip.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/Kendo/kendo.all.min.js"></script>
+    <script src="~/Scripts/Kendo/kendo.aspnetmvc.min.js"></script>
 </head>
 <body>
+
     @RenderBody()
 </body>
 </html>

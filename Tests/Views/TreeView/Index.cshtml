@@ -5,20 +5,15 @@
         var dataItem = grid.dataItem(row);
         if (dataItem)
         {
-            return
-            {
-                rowId: dataItem.Id,
-                rowParentId: dataItem.ParentId
-            };
+            return { clientId: dataItem.Id, xxx: "sdsdsds" }
         } else {
-            return null;
+            return { clientId: null }
         }
     }
 </script>
 @{ 
 
 }
-
 @(Html.Kendo().Grid<Tests.Models.TreeViewNode>()
     .Name("grid")
     .Columns(col =>
@@ -66,6 +61,6 @@
     })
     .Read(x => x.Action("TreeView_Read", "TreeView"))
     .Create(x => x.Action("TreeView_Create", "TreeView"))
-    .Update(x => x.Action("TreeView_Create", "TreeView"))
-    .Destroy(x => x.Action("TreeView_Create", "TreeView"))
+    .Update(x => x.Action("TreeView_Cr", "TreeView"))
+    .Destroy(x => x.Action("TreeView_Cree", "TreeView"))
     ))

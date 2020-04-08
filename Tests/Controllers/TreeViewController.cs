@@ -56,9 +56,9 @@ namespace Tests.Controllers
                     // Если проверять HasChildren, то минимум действий все рано равен 1, а максимум - 2.
                     parent.HasChildren = true;
 
-                    context.Node.Attach(parent);
-                    context.Entry(parent).State = EntityState.Modified;
-                    context.SaveChanges();
+                    //context.Node.Attach(parent);
+                    //context.Entry(parent).State = EntityState.Modified;
+                    //context.SaveChanges();
 
                     row.ParentName = parent.Name;
                 }
