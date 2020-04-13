@@ -26,9 +26,10 @@ input.k-textbox {
     padding: 0;
 }
 textarea.k-textbox {
-    height: 50px;
+    height: 70px;
     padding: 4px 9px;
-    line-height: 20px;
+    font-size: 10pt;
+    line-height: 12pt;
 }
 
 
@@ -53,13 +54,13 @@ span.k-dropdown {
 
 /* MultiSelectFor. */
 .k-multiselect-clearable .k-multiselect-wrap {
-    min-height: 30px;
+    height: 27px;
 }
 .k-multiselect-wrap li {
     min-height: unset;
 }
 .k-multiselect-clearable .k-multiselect-wrap li.k-button {
-    height: 30px;
+    height: 26px;
 }
 .k-multiselect-clearable .k-multiselect-wrap span {
     

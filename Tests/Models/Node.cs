@@ -11,7 +11,8 @@ namespace Tests.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Node
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,9 +24,11 @@ namespace Tests.Models
         public long Id { get; set; }
         public Nullable<long> ParentId { get; set; }
         public bool HasChildren { get; set; }
+        [Required]
         public string Name { get; set; }
         public string ParentName { get; set; }
         public string Tooltip { get; set; }
+        [Required]
         public string Description { get; set; }
         public string Area { get; set; }
         public string Controller { get; set; }

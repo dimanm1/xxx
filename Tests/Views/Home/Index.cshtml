@@ -1,1 +1,6 @@
-﻿
+﻿<a href="/TreeView/Index">Редактор</a>
+@(Html.Kendo().TreeView()
+    .Name("treeview")
+    .DataTextField("Name")
+    .DataSource(ds=>ds
+    .Read(read=>read.Action("GetMenu","Home"))))

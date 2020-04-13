@@ -1,11 +1,27 @@
 ﻿@model Tests.Models.TreeViewNode
 <link href="~/Content/TreeView/treeview-node-form.css" rel="stylesheet" />
-@{ 
+@{
     string altParentItem = string.Concat(
         @"<div>#:data.Name#</div>",
         @"<div class='alt-parent-desc'>Id: #:data.Id#. #:data.Description#</div>"
     );
 }
+<script>
+    function onChange(e) {
+        var altParent = this.dataItem(e.item);
+        $.ajax({
+            url: "/TreeView/Groups",
+            type: 'GET',
+            data: { selectedRow_ParentId: altParent.Id },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (er) {
+                console.log(er);
+            }
+        })
+    }
+</script>
 <div class="container-fluid">
     <div class="row">
         <div class="col">
@@ -28,8 +44,7 @@
             <div class="treeview-node-form_item">
                 <div>Parent</div>
                 <div>
-                    @(Html.Kendo().DropDownListFor(x=>x.ParentId)                        
-                        //.Name("alterPar")
+                    @(Html.Kendo().DropDownListFor(x => x.ParentId)
                         .DataTextField("Name")
                         .DataValueField("Id")
                         .OptionLabel("Set as root")
@@ -43,17 +58,36 @@
                             .Transport(t => t.Read(read => read.Action("AlterParents", "TreeView").Data("getSelectedRowId")))
                         )
                         .Filter(FilterType.Contains)
+                        // Для того, чтобы после нового выбранного родителя, 
+                        // среди доступных групп редактируемого узла были только те,
+                        // которые есть у этого родителя, но не работает(((
+                        //.Events(x =>
+                        //{
+                        //    x.Change("onChange");
+                        //})
                         .HtmlAttributes(new { data_value_primitive = "true" })
                     )
                 </div>
             </div>
             <div class="treeview-node-form_item">
                 <div>Groups</div>
-                @(Html.Kendo().MultiSelectFor(x=> x.Groups)             
+                @(Html.Kendo().MultiSelectFor(x => x.Groups)
                     .DataTextField("Name")
                     .DataValueField("Id")
                     .DataSource(x => x.Read(read => read.Action("Groups", "TreeView").Data("getSelectedRowId"))
                 ))
+            </div>
+            <div class="treeview-node-form_item">
+                <div>Area</div>
+                @(Html.Kendo().TextBoxFor(x => x.Area))
+            </div>
+            <div class="treeview-node-form_item">
+                <div>Controller</div>
+                @(Html.Kendo().TextBoxFor(x => x.Controller))
+            </div>
+             <div class="treeview-node-form_item">
+                <div>Action</div>
+                @(Html.Kendo().TextBoxFor(x => x.Action))
             </div>
         </div>
     </div>

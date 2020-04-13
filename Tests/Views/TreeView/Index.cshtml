@@ -3,22 +3,31 @@
         var row = $(event.srcElement).closest("tr");
         var grid = $(event.srcElement).closest("[data-role=grid]").data("kendoGrid");
         var dataItem = grid.dataItem(row);
-        if (dataItem)
-        {
+        if (dataItem) {
             return { selectedRow_Id: dataItem.Id, selectedRow_ParentId: dataItem.ParentId };
         }
     }
 </script>
-@{}
+@{
+    string groups = "#: data.Groups.map(t=>t.Name).join(', ') #";
+}
+<a href="/">Назад</a>
 @(Html.Kendo().Grid<Tests.Models.TreeViewNode>()
     .Name("grid")
     .Columns(col =>
     {
-        col.Bound(x => x.Name).Title("Name");
-        col.Bound(x => x.ParentName).Title("Parent");
-        col.Bound(x => x.Action).Title("Action");
-        col.Bound(x => x.Controller).Title("Controller");
+        // Create не работает.
+        // col.Bound(x => x).ClientTemplate(groups).Title("Groups");
+        col.Bound(c => c.Name)
+            .ClientTemplate("<a href='/#=Controller#/#=Action#'>#=Name#</a>")
+            .Title("Name");
+        col.Bound(x => x.ParentName).Title("Parent");   
+        col.Bound(x=>x.GroupsString)
+            .ClientTemplate("<i>#=GroupsString#</i>")
+            .Title("Groups");
         col.Bound(x => x.Area).Title("Area");
+        col.Bound(x => x.Controller).Title("Controller");
+        col.Bound(x => x.Action).Title("Action");
         col.Command(x =>
         {
             x.Edit()
@@ -57,5 +66,5 @@
     })
     .Read(x => x.Action("TreeView_Read", "TreeView"))
     .Create(x => x.Action("TreeView_Create", "TreeView"))
-    .Update(x => x.Action("TreeView_Cr", "TreeView"))
+    .Update(x => x.Action("TreeView_Update", "TreeView"))
     .Destroy(x => x.Action("TreeView_Cree", "TreeView"))))
